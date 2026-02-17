@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Petit Développeur | Grand Projet - Élec Pro Services</title>
+    <style>
+    :root {
+        --bg: #f8fafc;
+        --surface: #ffffff;
+        --primary: #f59e0b;
+        --text: #1e293b;
+        --muted: #64748b;
+        --border: #e2e8f0;
+        --radius: 12px;
+        --whatsapp: #25D366;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        font-family: 'Inter', system-ui, sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+    }
+
+    header {
+        position: sticky; top: 0; z-index: 50;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-bottom: 3px solid var(--primary);
+        padding: 1rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-weight: 900; font-size: 1.4rem; color: var(--text); text-transform: uppercase; }
+
+    .container { max-width: 1200px; margin: 30px auto; padding: 0 15px; min-height: 60vh; }
+
+    /* --- FILTRES --- */
+    .filters {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px; margin-bottom: 40px;
+        background: var(--surface);
+        padding: 20px; border-radius: var(--radius);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--border);
+    }
+    .field label { display: block; font-size: 0.8rem; color: var(--muted); font-weight: bold; margin-bottom: 5px; }
+    input, select {
+        width: 100%; padding: 0.8rem; border-radius: 8px;
+        border: 1px solid var(--border);
+        background: #fff; color: var(--text);
+    }
+
+    /* --- CARTES --- */
+    .projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+    .card {
+        background: var(--surface);
+        border-radius: var(--radius); overflow: hidden;
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        transition: 0.3s ease;
+    }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+
+    .carousel { position: relative; height: 250px; background: #eee; }
+    .carousel img { width: 100%; height: 100%; object-fit: cover; display: none; }
+    .carousel img.active { display: block; }
+
+    .card-content { padding: 1.5rem; }
+    .category-tag { 
+        display: inline-block; padding: 4px 12px; background: #fef3c7; 
+        color: #b45309; border-radius: 20px; font-size: 0.75rem; font-weight: bold;
+    }
+    .card-content h3 { margin: 10px 0; font-size: 1.25rem; color: var(--text); }
+    .location { color: var(--muted); font-size: 0.9rem; margin-bottom: 10px; }
+
+    .btn-group { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 20px; }
+    .btn {
+        padding: 12px; border-radius: 8px; text-decoration: none; text-align: center;
+        font-weight: bold; transition: 0.2s;
+    }
+    .btn-main { background: var(--primary); color: white; border: none; }
+    .btn-wa { background: #ffffff; color: #128C7E; border: 1px solid #128C7E; }
+
+    /* --- FOOTER CSS --- */
+    footer {
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        margin-top: 80px;
+        padding: 40px 0 20px 0;
+        color: var(--text);
+    }
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+    .footer-section h4 { color: var(--primary); margin-bottom: 15px; text-transform: uppercase; font-size: 0.9rem; }
+    .footer-section p { color: var(--muted); font-size: 0.9rem; margin: 5px 0; }
+    .footer-section a { color: inherit; text-decoration: none; }
+    .footer-bottom {
+        text-align: center; margin-top: 40px; padding-top: 20px;
+        border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--muted);
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="logo">⚡ ÉLEC PRO SERVICES</div>
+        <div style="font-size: 0.8rem; color: var(--muted);">Petit Développeur, Grand Projet</div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="filters">
+        <div class="field">
+            <label>🛠️ Spécialité</label>
+            <select id="typeFilter">
+                <option value="">Tous nos services</option>
+                <option value="Installation">Installation Neuve</option>
+                <option value="Dépannage">Dépannage Urgent</option>
+                <option value="Domotique">Domotique / Smart Home</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>📍 Ville</label>
+            <input type="text" id="citySearch" placeholder="Ex: Paris, Lyon...">
+        </div>
+    </div>
+
+    <div class="projects" id="projectContainer">
+        </div>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <div class="logo">⚡ ÉLEC PRO SERVICES</div>
+            <p>Solutions électriques professionnelles.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Contact</h4>
+            <p>📞 <a href="tel:0676244258">06 76 24 42 58</a></p>
+            <p>📧 <a href="mailto:contact@elecproservices.fr">contact@elecproservices.fr</a></p>
+        </div>
+        <div class="footer-section">
+            <h4>Secteur d'intervention</h4>
+            <p>Sainte-Marie et ses environs (35)</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2026 ÉLEC PRO SERVICES - Réalisé avec passion
+    </div>
+</footer>
+
+<script>
+    const urlAPI = "https://script.google.com/macros/s/AKfycbzWo_xTBsyTTIUCRtxesjMVj9AjiuYqVTu-j7V5gfifu4bqPzoftErPH97IKpjAGcRK/exec";
+    let tousLesProjets = [];
+
+    async function chargerChantiers() {
+        try {
+            const response = await fetch(urlAPI);
+            tousLesProjets = await response.json();
+            afficherCartes(tousLesProjets);
+        } catch (error) {
+            console.error("Erreur :", error);
+            document.getElementById('projectContainer').innerHTML = "<p>Erreur de connexion au catalogue.</p>";
+        }
+    }
+
+    function afficherCartes(projets) {
+        const container = document.getElementById('projectContainer');
+        if (projets.length === 0) {
+            container.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>Aucun chantier trouvé.</p>";
+            return;
+        }
+        container.innerHTML = projets.map(p => {
+            const photos = p['photos'] ? p['photos'].split(',') : ['https://via.placeholder.com/400x300?text=Pas+de+photo'];
+            const premierePhoto = photos[0].trim();
+            return `
+                <div class="card">
+                    <div class="carousel">
+                        <img src="${premierePhoto}" class="active">
+                    </div>
+                    <div class="card-content">
+                        <span class="category-tag">${p['renovation ou neuf'] || 'Chantier'}</span>
+                        <h3>${p['travaux effectues'] || 'Travaux'}</h3>
+                        <div class="location">📍 ${p['ville'] || ''} (${p['annee'] || ''})</div>
+                        <p style="font-size:0.85rem; color:var(--muted);">Client : ${p['nom client'] || 'Privé'}</p>
+                        <div class="btn-group">
+                            <a href="mailto:contact@elecproservices.fr" class="btn btn-main">Demander un devis</a>
+                            <a href="https://wa.me/33676244258" target="_blank" class="btn btn-wa">WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function filtrer() {
+        const typeFiltre = document.getElementById('typeFilter').value.toLowerCase();
+        const villeFiltre = document.getElementById('citySearch').value.toLowerCase();
+        const resultats = tousLesProjets.filter(p => {
+            const matchType = p['renovation ou neuf'] ? p['renovation ou neuf'].toLowerCase().includes(typeFiltre) : true;
+            const matchVille = p['ville'] ? p['ville'].toLowerCase().includes(villeFiltre) : true;
+            return matchType && matchVille;
+        });
+        afficherCartes(resultats);
+    }
+
+    document.getElementById('typeFilter').addEventListener('change', filtrer);
+    document.getElementById('citySearch').addEventListener('input', filtrer);
+
+    chargerChantiers();
+</script>
+
+</body>
+</html>
